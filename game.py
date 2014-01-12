@@ -44,6 +44,8 @@ def main():
 	while 1: # main game loop
 		if camera.is_level_finished():
 			level_number += 1
+			if level_number == len(levels):
+				break
 			player, camera = get_level(level_number, levels, screen)
 			continue
 
