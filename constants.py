@@ -1,0 +1,14 @@
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+LIGHT_BLUE = (168, 201, 251)
+DARK_BLUE = (111, 105, 214)
+
+RIGHT = 'right'
+LEFT = 'left'
+STAND = 'stand'
+
+SIZE = 16
+
+MOVE_DISTANCE = 4
+
+STANDARD_SCROLL = 10
