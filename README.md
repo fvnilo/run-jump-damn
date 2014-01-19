@@ -8,7 +8,7 @@ You control a little bird that wants to get out of a very long cavern.
 ### To do's ###
 What still needs to be done:
 *  Add enemies
-*  Add intro/outro (The game will crash at the last level)
+*  Add intro/outro
 *  Add a scoring system
  
 
