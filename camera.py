@@ -1,4 +1,4 @@
-from constants import STANDARD_SCROLL
+from constants import STANDARD_SCROLL, STANDARD_BACKWARD_SCROLL
 
 class Camera:
 	"""
@@ -16,6 +16,12 @@ class Camera:
 		self.level_size = level_size
 		self.max_scroll = level_size - screen.get_width()
 
+	def __camera_moving_forward(self):
+		return self.sprite.rect.centerx >= self.screen.get_width()/2 and self.sprite.moving_forward()
+
+	def __camera_moving_backward(self):
+		return self.sprite.rect.centerx <= self.screen.get_width()/4 and not self.sprite.moving_forward()
+
 	def update(self):
 		"""Updates the view by scrolling forward if necessary or resetting the view if the player is off screen"""
 
@@ -25,24 +31,20 @@ class Camera:
 			return
 
 		# We will scroll forward if the player is at the center of the screen
-		if self.sprite.rect.centerx >= self.screen.get_width()/2:
-			if self.level_scroll <= self.max_scroll:
+		if self.__camera_moving_forward() and self.level_scroll <= self.max_scroll:
+			scroll = min(self.max_scroll-self.level_scroll, STANDARD_SCROLL)
+		elif self.__camera_moving_backward() and self.level_scroll > 0:
+			scroll = STANDARD_BACKWARD_SCROLL
+		else:
+			return
+		
+		self.level_scroll += scroll
+		self.sprite.move(-scroll/2, 0) # The player itself will be scrolled half of the scroll
+		self.sprite.update_rect()
 
-				# We need to check if we should scroll the standard distance or what is left
-				diff = self.max_scroll-self.level_scroll
-
-				if diff >= STANDARD_SCROLL:
-					scroll = STANDARD_SCROLL
-				else:
-					scroll = diff
-				
-				self.level_scroll += scroll
-				self.sprite.move(-scroll/2, 0) # The player itself will be scrolled half of the scroll
-				self.sprite.update_rect()
-
-				for sprite in self.level_group:
-					sprite.move(-scroll, 0)
-					sprite.update_rect()
+		for sprite in self.level_group:
+			sprite.move(-scroll, 0)
+			sprite.update_rect()
 
 	def draw(self):
 		"""Draws the level and the player on the screen"""

@@ -124,6 +124,10 @@ class Player(Sprite):
 		Sprite.reset(self)
 		self.alive = True
 
+	def moving_forward(self):
+		"""Returns whether the player is moving forward or not"""
+		return self.horizontal_speed >= 0
+
 	def update(self):
 		""""Updates the player's position"""
 		if self.horizontal_speed == 0:
